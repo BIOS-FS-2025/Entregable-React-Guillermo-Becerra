@@ -5,9 +5,9 @@ import Footer from "../components/Footer";
 function MainLayout() {
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <Navigation />
-            <main>
+            <main className="flex-grow">
                 <Outlet />
             </main>
             <Footer />
