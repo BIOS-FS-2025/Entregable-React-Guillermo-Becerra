@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import kclogo from "../img/kclogo.png";
 
 function Navigation() {
     return (
@@ -6,15 +7,18 @@ function Navigation() {
             <div className="pl-8 pr-12">
                 <div className="flex justify-between h-20 items-center">
 
-                    {/* Logo */}
                     <Link to="/">
-                        <div className="flex-shrink-0">
-                            <span className="text-xl tracking-wide font-bold text-yellow-400">KAIBAPEDIA</span>
+                        <div className="flex items-center space-x-3">
+                            <img
+                                src={kclogo}
+                                alt="Kaiba Corp Logo"
+                                className="h-16 w-auto" // 👈 altura fija, ancho automático
+                            />
+                            <span className="text-2xl font-bold tracking-wide text-gray-200">KAIBAPEDIA</span>
                         </div>
                     </Link>
 
-                    {/* Links */}
-                    <ul className="flex space-x-6">
+                    <ul className="text-xl flex space-x-6">
                         <li>
                             <Link
                                 to="/"
