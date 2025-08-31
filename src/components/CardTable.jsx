@@ -87,6 +87,9 @@ function CardTable() {
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("level")}>
                                         Level/Rank{renderSortArrow("level")}
                                     </th>
+                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("name")}>
+                                        Name{renderSortArrow("name")}
+                                    </th>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("type")}>
                                         Type{renderSortArrow("type")}
                                     </th>
@@ -95,9 +98,6 @@ function CardTable() {
                                     </th>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("attribute")}>
                                         Attribute{renderSortArrow("attribute")}
-                                    </th>
-                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("name")}>
-                                        Name{renderSortArrow("name")}
                                     </th>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("atk")}>
                                         ATK{renderSortArrow("atk")}
