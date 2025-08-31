@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CardTableRow from "./CardTableRow";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
+import FilterBar from "./FilterBar";
 
 function CardTable() {
     const [cards, setCards] = useState([]);
@@ -16,8 +17,22 @@ function CardTable() {
     const [sortColumn, setSortColumn] = useState(null);
     const [sortOrder, setSortOrder] = useState("asc"); // "asc" o "desc"
 
+    //Filtros
+    const [filters, setFilters] = useState({
+        level: "",
+        type: "",
+        race: "",
+        attribute: ""
+    });
+
+
     // Nuevo estado para búsqueda
     const [searchTerm, setSearchTerm] = useState("");
+
+    // 🔹 Aquí va el useEffect para resetear la página al filtrar
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, filters]);
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -35,10 +50,17 @@ function CardTable() {
         fetchCards();
     }, []);
 
-    // 🔹 Filtrado por búsqueda
-    const filteredCards = cards.filter((card) =>
-        card.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // Filtrado por búsqueda
+    const filteredCards = cards.filter(card =>
+        card.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (filters.level === "" || (card.level?.toString() === filters.level || card.rank?.toString() === filters.level)) &&
+        (filters.type === "" ||
+            (filters.type === "Monster Card" ? card.type.includes("Monster") : card.type === filters.type)
+        ) &&
+        (filters.race === "" || card.race === filters.race) &&
+        (filters.attribute === "" || card.attribute === filters.attribute)
     );
+
 
     // Ordenar
     const sortedCards = [...filteredCards].sort((a, b) => {
@@ -77,6 +99,7 @@ function CardTable() {
 
                     {/* Barra de búsqueda */}
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <FilterBar filters={filters} setFilters={setFilters} />
 
                     {/* Tabla */}
                     <div className="overflow-x-auto">
@@ -119,7 +142,7 @@ function CardTable() {
 
                     {/* Paginación */}
                     <Pagination
-                        totalCards={cards.length}
+                        totalCards={filteredCards.length} // 🔹 usar filteredCards aquí
                         cardsPerPage={cardsPerPage}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
