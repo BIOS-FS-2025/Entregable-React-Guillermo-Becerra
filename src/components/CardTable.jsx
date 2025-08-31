@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CardTableRow from "./CardTableRow";
 import Pagination from "./Pagination";
+import SearchBar from "./SearchBar";
 
 function CardTable() {
     const [cards, setCards] = useState([]);
@@ -14,6 +15,9 @@ function CardTable() {
     // Ordenación
     const [sortColumn, setSortColumn] = useState(null);
     const [sortOrder, setSortOrder] = useState("asc"); // "asc" o "desc"
+
+    // Nuevo estado para búsqueda
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -31,31 +35,22 @@ function CardTable() {
         fetchCards();
     }, []);
 
-    // Función para ordenar
-    const handleSort = (column) => {
-        if (sortColumn === column) {
-            // Si clickeamos la misma columna, alternamos el orden
-            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-        } else {
-            // Si es una columna nueva, seteamos ascendente
-            setSortColumn(column);
-            setSortOrder("asc");
-        }
-    };
+    // 🔹 Filtrado por búsqueda
+    const filteredCards = cards.filter((card) =>
+        card.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    // Copiamos y ordenamos las cartas
-    const sortedCards = [...cards].sort((a, b) => {
+    // Ordenar
+    const sortedCards = [...filteredCards].sort((a, b) => {
         if (!sortColumn) return 0;
 
         const valA = a[sortColumn] ?? "";
         const valB = b[sortColumn] ?? "";
 
-        // Comparación numérica si ambos son números
         if (!isNaN(valA) && !isNaN(valB)) {
             return sortOrder === "asc" ? valA - valB : valB - valA;
         }
 
-        // Comparación de strings
         return sortOrder === "asc"
             ? String(valA).localeCompare(String(valB))
             : String(valB).localeCompare(String(valA));
@@ -79,6 +74,10 @@ function CardTable() {
 
             {!loading && !error && (
                 <>
+
+                    {/* Barra de búsqueda */}
+                    <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
                     {/* Tabla */}
                     <div className="overflow-x-auto">
                         <table className="min-w-full bg-gray-800 text-gray-300 rounded-lg overflow-hidden">
