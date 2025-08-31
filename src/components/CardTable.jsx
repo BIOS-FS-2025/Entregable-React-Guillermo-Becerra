@@ -78,6 +78,26 @@ function CardTable() {
             : String(valB).localeCompare(String(valA));
     });
 
+    // Manejo de ordenación
+    const handleSort = (column) => {
+        if (sortColumn === column) {
+            // Si ya estamos ordenando por esta columna, invertimos el orden
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+        } else {
+            // Si es una nueva columna, empezamos en ascendente
+            setSortColumn(column);
+            setSortOrder("asc");
+        }
+
+        // 🔹 Si se ordena por Level/Rank, ATK o DEF, forzamos filtro a Monster
+        if (["level", "atk", "def"].includes(column)) {
+            setFilters((prev) => ({
+                ...prev,
+                type: "Monster Card"
+            }));
+        }
+    };
+
     // Calcular paginación después de ordenar
     const indexOfLastCard = currentPage * cardsPerPage;
     const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -112,24 +132,16 @@ function CardTable() {
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("name")}>
                                         Name{renderSortArrow("name")}
                                     </th>
-                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("type")}>
-                                        Type{renderSortArrow("type")}
-                                    </th>
-                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("race")}>
-                                        Typing{renderSortArrow("race")}
-                                    </th>
-                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("attribute")}>
-                                        Attribute{renderSortArrow("attribute")}
-                                    </th>
+                                    <th className="px-4 py-2 text-left">Type</th>
+                                    <th className="px-4 py-2 text-left">Typing</th>
+                                    <th className="px-4 py-2 text-left">Attribute</th>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("atk")}>
                                         ATK{renderSortArrow("atk")}
                                     </th>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("def")}>
                                         DEF{renderSortArrow("def")}
                                     </th>
-                                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("archetype")}>
-                                        Archetype{renderSortArrow("archetype")}
-                                    </th>
+                                    <th className="px-4 py-2 text-left">Archetype</th>
                                 </tr>
                             </thead>
                             <tbody>
