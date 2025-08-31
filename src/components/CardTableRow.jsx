@@ -26,6 +26,7 @@ import FishIcon from "../assets/typing/Fish.png";
 import IllusionIcon from "../assets/typing/Illusion.png";
 import InsectIcon from "../assets/typing/Insect.png";
 import MachineIcon from "../assets/typing/Machine.png";
+import NormalIcon from "../assets/typing/Normal.png";
 import PlantIcon from "../assets/typing/Plant.png";
 import PsychicIcon from "../assets/typing/Psychic.png";
 import PyroIcon from "../assets/typing/Pyro.png";
@@ -70,6 +71,7 @@ const typingIcons = {
     "Illusion": IllusionIcon,
     "Insect": InsectIcon,
     "Machine": MachineIcon,
+    "Normal": NormalIcon,
     "Plant": PlantIcon,
     "Psychic": PsychicIcon,
     "Pyro": PyroIcon,
