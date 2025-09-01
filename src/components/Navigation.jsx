@@ -22,7 +22,7 @@ function Navigation() {
                         <li>
                             <Link
                                 to="/"
-                                className="text-gray-200 font-semibold hover:text-yellow-400 transition-colors duration-200"
+                                className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
                             >
                                 Home
                             </Link>
@@ -30,7 +30,7 @@ function Navigation() {
                         <li>
                             <Link
                                 to="/card"
-                                className="text-gray-200 font-semibold hover:text-yellow-400 transition-colors duration-200"
+                                className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
                             >
                                 Card Detail
                             </Link>

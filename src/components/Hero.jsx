@@ -20,7 +20,7 @@ function Hero() {
 
                 {/* Description */}
                 <p className="mt-6 text-lg md:text-xl text-gray-300 leading-relaxed">
-                    The ultimate KaibaCorp project.
+                    The ultimate KaibaCorp™ project.
                     The most complete, advanced, and official card database
                     for true duelists around the world.
                 </p>
