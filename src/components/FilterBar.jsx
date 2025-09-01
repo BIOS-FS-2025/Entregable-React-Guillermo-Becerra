@@ -23,8 +23,8 @@ function FilterBar({ filters, setFilters, allTypings }) {
 
     // 🔹 Bloquear Spell/Trap si Level o Attribute están seleccionados, o dependiendo del Typing
     const disableSpellTrap = filters.level !== "" || filters.attribute !== "";
-    const disableSpellType = filters.race === "Counter"
-    const disableTrapType = filters.race === "Equip" || filters.race === "Field" || filters.race === "Quick-Play" || filters.race === "Ritual";
+    const disableSpellType = filters.race !== "" && filters.race !== "Continuous" && filters.race !== "Equip" && filters.race !== "Field" && filters.race !== "Normal" && filters.race !== "Quick-Play" && filters.race !== "Ritual";
+    const disableTrapType = filters.race !== "" && filters.race !== "Continuous" && filters.race !== "Counter" && filters.race !== "Normal";
 
     // 🔹 Lógica para Typings según el Type seleccionado
     const disableSpellTrapTypings = filters.type === "Monster Card";
