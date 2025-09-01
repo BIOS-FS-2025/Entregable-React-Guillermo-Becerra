@@ -34,7 +34,7 @@ function FilterBar({ filters, setFilters, allTypings }) {
     const disableExtraForTrap = filters.type === "Trap Card";
 
     return (
-        <div className="flex flex-wrap gap-4 mb-4">
+        <div className="flex flex-wrap gap-4 mb-4 justify-center">
 
             {/* Level/Rank */}
             <select
