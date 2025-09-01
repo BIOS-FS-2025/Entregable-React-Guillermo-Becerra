@@ -15,11 +15,23 @@ function FilterBar({ filters, setFilters, allTypings }) {
     };
 
     // 🔹 Deshabilitar Level si Type es Spell o Trap
-    const disableLevel = filters.type === "Spell Card" || filters.type === "Trap Card";
-    const disableAttribute = filters.type === "Spell Card" || filters.type === "Trap Card";
+    const disableLevel = filters.type === "Spell Card" || filters.type === "Trap Card" || filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
+    const disableAttribute = filters.type === "Spell Card" || filters.type === "Trap Card" || filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
 
-    // 🔹 Bloquear Spell/Trap si Level o Attribute están seleccionados
+    // Deshabilitar Type Monster si Typing es del Spell/Trap group
+    const disableMonsterType = filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
+
+    // 🔹 Bloquear Spell/Trap si Level o Attribute están seleccionados, o dependiendo del Typing
     const disableSpellTrap = filters.level !== "" || filters.attribute !== "";
+    const disableSpellType = filters.race === "Counter"
+    const disableTrapType = filters.race === "Equip" || filters.race === "Field" || filters.race === "Quick-Play" || filters.race === "Ritual";
+
+    // 🔹 Lógica para Typings según el Type seleccionado
+    const disableSpellTrapTypings = filters.type === "Monster Card";
+    const disableMonsterTypings = filters.type === "Spell Card" || filters.type === "Trap Card";
+
+    const disableExtraForSpell = filters.type === "Spell Card";
+    const disableExtraForTrap = filters.type === "Trap Card";
 
     return (
         <div className="flex flex-wrap gap-4 mb-4">
@@ -46,9 +58,9 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 className="px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
                 <option value="">All Types</option>
-                <option value="Spell Card" disabled={disableSpellTrap}>Spell Card</option>
-                <option value="Trap Card" disabled={disableSpellTrap}>Trap Card</option>
-                <option value="Monster Card">Monster Card</option>
+                <option value="Spell Card" disabled={disableSpellTrap || disableSpellType}>Spell Card</option>
+                <option value="Trap Card" disabled={disableSpellTrap || disableTrapType}>Trap Card</option>
+                <option value="Monster Card" disabled={disableMonsterType}>Monster Card</option>
             </select>
 
             {/* Typing */}
@@ -61,44 +73,44 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 <option value="">All Typings</option>
 
                 {/* Grupo Spell/Trap */}
-                <optgroup label="Spell/Trap Cards">
-                    <option value="Continuous" disabled={disableSpellTrap}>Continuous</option>
-                    <option value="Counter" disabled={disableSpellTrap}>Counter</option>
-                    <option value="Equip" disabled={disableSpellTrap}>Equip</option>
-                    <option value="Field" disabled={disableSpellTrap}>Field</option>
-                    <option value="Normal" disabled={disableSpellTrap}>Normal</option>
-                    <option value="Quick-Play" disabled={disableSpellTrap}>Quick-Play</option>
-                    <option value="Ritual" disabled={disableSpellTrap}>Ritual</option>
+                <optgroup className="text-gray-400 font-medium" label="- Spell/Trap Cards -" disabled={disableSpellTrapTypings}>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap ? "" : "text-gray-200"}`} value="Continuous" disabled={disableSpellTrap}>Continuous</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForSpell ? "" : "text-gray-200"}`} value="Counter" disabled={disableSpellTrap | disableExtraForSpell}>Counter</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForTrap ? "" : "text-gray-200"}`} value="Equip" disabled={disableSpellTrap | disableExtraForTrap}>Equip</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForTrap ? "" : "text-gray-200"}`} value="Field" disabled={disableSpellTrap | disableExtraForTrap}>Field</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap ? "" : "text-gray-200"}`} value="Normal" disabled={disableSpellTrap}>Normal</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForTrap ? "" : "text-gray-200"}`} value="Quick-Play" disabled={disableSpellTrap | disableExtraForTrap}>Quick-Play</option>
+                    <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForTrap ? "" : "text-gray-200"}`} value="Ritual" disabled={disableSpellTrap | disableExtraForTrap}>Ritual</option>
                 </optgroup>
 
                 {/* Grupo Monster */}
-                <optgroup label="Monster Cards">
-                    <option value="Aqua">Aqua</option>
-                    <option value="Beast-Warrior">Beast-Warrior</option>
-                    <option value="Beast">Beast</option>
-                    <option value="Creator God">Creator God</option>
-                    <option value="Cyberse">Cyberse</option>
-                    <option value="Dinosaur">Dinosaur</option>
-                    <option value="Divine-Beast">Divine-Beast</option>
-                    <option value="Dragon">Dragon</option>
-                    <option value="Fairy">Fairy</option>
-                    <option value="Fiend">Fiend</option>
-                    <option value="Fish">Fish</option>
-                    <option value="Illusion">Illusion</option>
-                    <option value="Insect">Insect</option>
-                    <option value="Machine">Machine</option>
-                    <option value="Plant">Plant</option>
-                    <option value="Psychic">Psychic</option>
-                    <option value="Pyro">Pyro</option>
-                    <option value="Reptile">Reptile</option>
-                    <option value="Rock">Rock</option>
-                    <option value="Sea Serpent">Sea Serpent</option>
-                    <option value="Spellcaster">Spellcaster</option>
-                    <option value="Thunder">Thunder</option>
-                    <option value="Warrior">Warrior</option>
-                    <option value="Winged Beast">Winged Beast</option>
-                    <option value="Wyrm">Wyrm</option>
-                    <option value="Zombie">Zombie</option>
+                <optgroup className="text-gray-400 font-medium" label="- Monster Cards -" disabled={disableMonsterTypings}>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Aqua">Aqua</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Beast-Warrior">Beast-Warrior</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Beast">Beast</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Creator God">Creator God</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Cyberse">Cyberse</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Dinosaur">Dinosaur</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Divine-Beast">Divine-Beast</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Dragon">Dragon</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Fairy">Fairy</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Fiend">Fiend</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Fish">Fish</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Illusion">Illusion</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Insect">Insect</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Machine">Machine</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Plant">Plant</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Psychic">Psychic</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Pyro">Pyro</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Reptile">Reptile</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Rock">Rock</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Sea Serpent">Sea Serpent</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Spellcaster">Spellcaster</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Thunder">Thunder</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Warrior">Warrior</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Winged Beast">Winged Beast</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Wyrm">Wyrm</option>
+                    <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Zombie">Zombie</option>
                 </optgroup>
             </select>
 
