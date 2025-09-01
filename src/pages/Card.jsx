@@ -1,7 +1,9 @@
+import CardSearcherContainer from "../components/CardSearcherContainer";
+
 function Card() {
     return (
         <>
-            <h2>Card Detail</h2>
+            <CardSearcherContainer />
         </>
     )
 }
