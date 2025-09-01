@@ -1,3 +1,6 @@
+import { useState } from "react";
+import CardModal from "./CardModal";
+
 import darkIcon from "../assets/attributes/DARK.jpg";
 import lightIcon from "../assets/attributes/LIGHT.jpg";
 import windIcon from "../assets/attributes/WIND.jpg";
@@ -116,55 +119,68 @@ const typeColors = {
 
 
 function CardTableRow({ card }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const atkValue = card.atk === -1 ? "?" : card.atk ?? "-";
     const defValue = card.def === -1 ? "?" : card.def ?? "-";
 
     return (
-        <tr className="border-b border-gray-700 hover:bg-gray-700 transition-colors divide-x divide-gray-700">
-            <td className="px-4 py-2 flex items-center space-x-2">
-                {(card.level || card.rank || card.linkval) && (
-                    <img src={starIcon} alt="Level Icon" className="w-5 h-5" />
-                )}
-                <span>{card.level || card.rank || card.linkval || "-"}</span>
-            </td>
-
-            <td className="px-4 py-2 font-semibold text-white">{card.name}</td>
-
-            <td className={`px-4 py-2 ${typeColors[card.type] || "text-gray-300"}`}>
-                {card.type || "-"}
-            </td>
-
-            <td className="px-4 py-2">
-                <div className="flex items-center space-x-2">
-                    {card.race && typingIcons[card.race] && (
-                        <img
-                            src={typingIcons[card.race]}
-                            alt={card.race}
-                            className="w-5 h-5"
-                        />
+        <>
+            <tr className="border-b border-gray-700 hover:bg-gray-700 transition-colors divide-x divide-gray-700 cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+            >
+                <td className="px-4 py-2 flex items-center space-x-2">
+                    {(card.level || card.rank || card.linkval) && (
+                        <img src={starIcon} alt="Level Icon" className="w-5 h-5" />
                     )}
-                    <span>{card.race || "-"}</span>
-                </div>
-            </td>
+                    <span>{card.level || card.rank || card.linkval || "-"}</span>
+                </td>
 
-            {/* Attribute con ícono */}
-            <td className="px-4 py-2">
-                <div className="flex items-center space-x-2">
-                    {card.attribute && attributeIcons[card.attribute] && (
-                        <img
-                            src={attributeIcons[card.attribute]}
-                            alt={card.attribute}
-                            className="w-5 h-5"
-                        />
-                    )}
-                    <span>{card.attribute || "-"}</span>
-                </div>
-            </td>
+                <td className="px-4 py-2 font-semibold text-white">{card.name}</td>
 
-            <td className="px-4 py-2">{atkValue}</td>
-            <td className="px-4 py-2">{defValue}</td>
-            <td className="px-4 py-2">{card.archetype || "-"}</td>
-        </tr>
+                <td className={`px-4 py-2 ${typeColors[card.type] || "text-gray-300"}`}>
+                    {card.type || "-"}
+                </td>
+
+                <td className="px-4 py-2">
+                    <div className="flex items-center space-x-2">
+                        {card.race && typingIcons[card.race] && (
+                            <img
+                                src={typingIcons[card.race]}
+                                alt={card.race}
+                                className="w-5 h-5"
+                            />
+                        )}
+                        <span>{card.race || "-"}</span>
+                    </div>
+                </td>
+
+                {/* Attribute con ícono */}
+                <td className="px-4 py-2">
+                    <div className="flex items-center space-x-2">
+                        {card.attribute && attributeIcons[card.attribute] && (
+                            <img
+                                src={attributeIcons[card.attribute]}
+                                alt={card.attribute}
+                                className="w-5 h-5"
+                            />
+                        )}
+                        <span>{card.attribute || "-"}</span>
+                    </div>
+                </td>
+
+                <td className="px-4 py-2">{atkValue}</td>
+                <td className="px-4 py-2">{defValue}</td>
+                <td className="px-4 py-2">{card.archetype || "-"}</td>
+            </tr>
+
+            {/* Modal */}
+            <CardModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                card={card}
+            />
+        </>
     );
 }
 
