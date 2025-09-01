@@ -111,7 +111,16 @@ function CardTable() {
 
     return (
         <div>
-            {loading && <p className="text-center text-gray-400">Loading cards...</p>}
+            {loading && (
+                <div className="flex flex-col items-center justify-center py-6">
+                    {/* Spinner */}
+                    <div className="w-20 h-20 border-8 border-blue-500 border-dashed rounded-full animate-spin"></div>
+                    {/* Texto */}
+                    <p className="mt-3 text-center text-gray-400 text-2xl font-medium">
+                        Loading cards...
+                    </p>
+                </div>
+            )}
             {error && <p className="text-center text-red-500">{error}</p>}
 
             {!loading && !error && (
