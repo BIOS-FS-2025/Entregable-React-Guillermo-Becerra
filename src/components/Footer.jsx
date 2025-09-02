@@ -1,8 +1,12 @@
 import kcLogo from "../img/kclogo.png";
+import { useTheme } from "../context/ThemeContext";
 
 function Footer() {
+
+    const { darkMode } = useTheme();
+
     return (
-        <footer className="bg-gray-900 text-gray-400 mt-10">
+        <footer className={`${darkMode ? "bg-gray-950 text-gray-500" : "bg-gray-900 text-gray-400"} mt-10`}>
             <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
 

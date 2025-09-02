@@ -3,8 +3,12 @@ import CardTableRow from "./CardTableRow";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import FilterBar from "./FilterBar";
+import { useTheme } from "../context/ThemeContext";
 
 function CardTable() {
+
+    const { darkMode } = useTheme();
+
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -126,15 +130,15 @@ function CardTable() {
             {!loading && !error && (
                 <>
 
-                    {/* Barra de búsqueda */}
+                    {/* Barra de búsqueda y Filtros */}
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                     <FilterBar filters={filters} setFilters={setFilters} />
 
                     {/* Tabla */}
                     <div className="overflow-x-auto">
-                        <table className="min-w-full bg-gray-800 text-gray-300 rounded-lg overflow-hidden">
+                        <table className={`${darkMode ? "bg-gray-900" : "bg-gray-800"} min-w-full text-gray-300 rounded-lg overflow-hidden`}>
                             <thead>
-                                <tr className="bg-gray-700 text-blue-400 divide-x divide-gray-600">
+                                <tr className={`${darkMode ? "bg-gray-950 divide-gray-800" : "bg-gray-700 divide-gray-600"} text-blue-400 divide-x`}>
                                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("level")}>
                                         Level/Rank{renderSortArrow("level")}
                                     </th>

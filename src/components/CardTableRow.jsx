@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CardModal from "./CardModal";
+import { useTheme } from "../context/ThemeContext";
 
 import darkIcon from "../assets/attributes/DARK.jpg";
 import lightIcon from "../assets/attributes/LIGHT.jpg";
@@ -119,6 +120,9 @@ const typeColors = {
 
 
 function CardTableRow({ card }) {
+
+    const { darkMode } = useTheme();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const atkValue = card.atk === -1 ? "?" : card.atk ?? "-";
@@ -126,7 +130,7 @@ function CardTableRow({ card }) {
 
     return (
         <>
-            <tr className="border-b border-gray-700 hover:bg-gray-700 transition-colors divide-x divide-gray-700 cursor-pointer"
+            <tr className={`${darkMode ? "hover:bg-gray-800" : "hover:bg-gray-700"} border-b border-gray-700 transition-colors divide-x divide-gray-700 cursor-pointer`}
                 onClick={() => setIsModalOpen(true)}
             >
                 <td className="px-4 py-2 flex items-center space-x-2">

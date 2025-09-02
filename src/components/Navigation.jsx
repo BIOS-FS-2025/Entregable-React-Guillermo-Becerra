@@ -8,7 +8,7 @@ function Navigation() {
     const { darkMode, toggleTheme } = useTheme();
 
     return (
-        <nav className="bg-gray-900 shadow-md">
+        <nav className={`${darkMode ? "bg-gray-950" : "bg-gray-900"} shadow-md`}>
             <div className="pl-8 pr-12">
                 <div className="flex justify-between h-20 items-center">
 

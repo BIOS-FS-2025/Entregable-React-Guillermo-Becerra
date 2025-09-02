@@ -1,4 +1,8 @@
+import { useTheme } from "../context/ThemeContext";
+
 function FilterBar({ filters, setFilters, allTypings }) {
+
+    const { darkMode } = useTheme();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,7 +46,9 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 value={filters.level}
                 onChange={handleChange}
                 disabled={disableLevel}
-                className={`px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${disableLevel ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`px-3 py-2 rounded text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+                    ${darkMode ? "bg-gray-900" : "bg-gray-700"}
+                    ${disableLevel ? "opacity-50 cursor-not-allowed" : ""}`}
             >
                 <option value="">All Levels</option>
                 {Array.from({ length: 12 }, (_, i) => i + 1).map(n => (
@@ -55,7 +61,7 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 name="type"
                 value={filters.type}
                 onChange={handleChange}
-                className="px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`${darkMode ? "bg-gray-900" : "bg-gray-700"} px-3 py-2 rounded text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             >
                 <option value="">All Types</option>
                 <option value="Spell Card" disabled={disableSpellTrap || disableSpellType}>Spell Card</option>
@@ -68,12 +74,12 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 name="race"
                 value={filters.race}
                 onChange={handleChange}
-                className="px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`${darkMode ? "bg-gray-900" : "bg-gray-700"} px-3 py-2 rounded text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             >
                 <option value="">All Typings</option>
 
                 {/* Grupo Spell/Trap */}
-                <optgroup className="text-gray-400 font-medium" label="- Spell/Trap Cards -" disabled={disableSpellTrapTypings}>
+                <optgroup className={`${darkMode ? "text-gray-500" : "text-gray-400"} font-medium`} label="- Spell/Trap Cards -" disabled={disableSpellTrapTypings}>
                     <option className={`${disableSpellTrapTypings | disableSpellTrap ? "" : "text-gray-200"}`} value="Continuous" disabled={disableSpellTrap}>Continuous</option>
                     <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForSpell ? "" : "text-gray-200"}`} value="Counter" disabled={disableSpellTrap | disableExtraForSpell}>Counter</option>
                     <option className={`${disableSpellTrapTypings | disableSpellTrap | disableExtraForTrap ? "" : "text-gray-200"}`} value="Equip" disabled={disableSpellTrap | disableExtraForTrap}>Equip</option>
@@ -84,7 +90,7 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 </optgroup>
 
                 {/* Grupo Monster */}
-                <optgroup className="text-gray-400 font-medium" label="- Monster Cards -" disabled={disableMonsterTypings}>
+                <optgroup className={`${darkMode ? "text-gray-500" : "text-gray-400"} font-medium`} label="- Monster Cards -" disabled={disableMonsterTypings}>
                     <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Aqua">Aqua</option>
                     <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Beast-Warrior">Beast-Warrior</option>
                     <option className={`${disableMonsterTypings ? "" : "text-gray-200"}`} value="Beast">Beast</option>
@@ -120,7 +126,9 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 value={filters.attribute}
                 onChange={handleChange}
                 disabled={disableAttribute}
-                className={`px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${disableLevel ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`px-3 py-2 rounded bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+                    ${darkMode ? "bg-gray-900" : "bg-gray-700"}
+                    ${disableLevel ? "opacity-50 cursor-not-allowed" : ""}`}
             >
                 <option value="">All Attributes</option>
                 <option value="DARK">DARK</option>
@@ -135,7 +143,7 @@ function FilterBar({ filters, setFilters, allTypings }) {
             {/* Botón de reset */}
             <button
                 onClick={handleReset}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                className={`${darkMode ? "bg-blue-700 hover:bg-blue-600" : "bg-blue-500 hover:bg-blue-600"} px-4 py-2 text-white rounded transition-colors`}
             >
                 Reset Filters
             </button>

@@ -1,8 +1,13 @@
 import kclogo from "../img/kclogo.png"
+import { useTheme } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 function Hero() {
+
+    const { darkMode } = useTheme();
+
     return (
-        <section className="relative bg-gradient-to-t from-blue-900 via-gray-800 to-gray-900 text-white py-20 overflow-hidden">
+        <section className={`${darkMode ? "bg-gradient-to-t from-blue-950 via-gray-900 to-gray-950" : "bg-gradient-to-t from-blue-900 via-gray-800 to-gray-900"} text-white relative py-20 overflow-hidden`}>
 
             <div className="absolute inset-0 flex justify-end items-center opacity-10">
                 <img
@@ -26,14 +31,16 @@ function Hero() {
                 </p>
 
                 {/* Call to action */}
-                <div className="mt-8">
-                    <a
-                        href="#cards"
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-md transition-all duration-300"
-                    >
-                        Explore the Database
-                    </a>
-                </div>
+                <Link to={"card"}>
+                    <div className="mt-8">
+                        <a
+                            href="#cards"
+                            className={`${darkMode ? "bg-blue-700 hover:bg-blue-600" : "bg-blue-500 hover:bg-blue-600"} text-white px-6 py-3 rounded-2xl font-semibold shadow-md transition-all duration-300`}
+                        >
+                            Explore the Database
+                        </a>
+                    </div>
+                </Link>
             </div>
         </section>
     );
