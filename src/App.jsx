@@ -4,6 +4,7 @@ import SearcherLayout from "./layouts/SearcherLayout";
 import Home from "./pages/Home";
 import Card from "./pages/Card";
 import { ThemeProvider } from "./context/ThemeContext";
+import CardDetail from "./components/CardDetail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           </Route>
           <Route path="card" element={<SearcherLayout />}>
             <Route index element={<Card />} />
+            <Route path="/card/:name" element={<CardDetail />} />
           </Route>
         </Routes>
       </ThemeProvider>
