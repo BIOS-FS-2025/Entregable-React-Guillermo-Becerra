@@ -2,11 +2,14 @@ import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import kclogo from "../img/kclogo.png";
+import { useTheme } from "../context/ThemeContext";
 
 function SearcherLayout() {
 
+    const { darkMode } = useTheme();
+
     return (
-        <div className="min-h-screen flex flex-col relative bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 overflow-hidden">
+        <div className={`${darkMode ? "bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800" : "bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300"} min-h-screen flex flex-col relative overflow-hidden`}>
 
             <Navigation />
             <main className="flex-grow relative overflow-hidden">
