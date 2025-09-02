@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import kclogo from "../img/kclogo.png";
+import { Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 function Navigation() {
+
+    const { darkMode, toggleTheme } = useTheme();
+
     return (
         <nav className="bg-gray-900 shadow-md">
             <div className="pl-8 pr-12">
@@ -18,24 +23,37 @@ function Navigation() {
                         </div>
                     </Link>
 
-                    <ul className="text-xl flex space-x-6">
-                        <li>
-                            <Link
-                                to="/"
-                                className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
-                            >
-                                Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/card"
-                                className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
-                            >
-                                Card Detail
-                            </Link>
-                        </li>
-                    </ul>
+                    <div className="flex items-center space-x-6">
+                        <ul className="text-xl flex space-x-6">
+                            <li>
+                                <Link
+                                    to="/"
+                                    className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
+                                >
+                                    Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/card"
+                                    className="text-gray-200 font-semibold hover:text-blue-400 transition-colors duration-200"
+                                >
+                                    Card Detail
+                                </Link>
+                            </li>
+                        </ul>
+
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                        >
+                            {darkMode ? (
+                                <Sun className="w-5 h-5 text-yellow-400" />
+                            ) : (
+                                <Moon className="w-5 h-5 text-blue-400" />
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
