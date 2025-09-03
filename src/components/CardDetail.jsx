@@ -105,6 +105,7 @@ function CardDetail() {
     const [loading, setLoading] = useState(true);
     const [imageIndex, setImageIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [relatedCards, setRelatedCards] = useState([]);
 
     useEffect(() => {
         const fetchCard = async () => {
@@ -113,8 +114,12 @@ function CardDetail() {
                     `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name}`
                 );
                 const data = await response.json();
-                setCard(data.data[0]);
+                const currentCard = data.data[0];
+                setCard(currentCard);
                 setImageIndex(0);
+
+                // Traer relacionadas
+                fetchRelated(currentCard);
             } catch (error) {
                 console.error("Error al traer la carta:", error);
             } finally {
@@ -124,6 +129,55 @@ function CardDetail() {
 
         fetchCard();
     }, [name]);
+
+    const fetchRelated = async (currentCard) => {
+        let related = [];
+
+        // --- Grupo 1: nombres entre comillas ---
+        if (currentCard.desc) {
+            const regex = /"([^"]+)"/g; // busca textos entre comillas
+            let match;
+            while ((match = regex.exec(currentCard.desc)) !== null) {
+                const cardName = match[1].trim();
+                if (cardName && cardName.toLowerCase() !== currentCard.name.toLowerCase()) {
+                    try {
+                        const res = await fetch(
+                            `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(cardName)}`
+                        );
+                        const data = await res.json();
+                        if (data.data && data.data[0] && !related.some(r => r.id === data.data[0].id)) {
+                            related.push(data.data[0]);
+                        }
+                    } catch (err) {
+                        console.warn("No se encontró carta mencionada:", cardName);
+                    }
+                }
+                if (related.length >= 7) break; // máximo 7
+            }
+        }
+
+        // --- Grupo 2: cartas del mismo archetype ---
+        if (related.length < 7 && currentCard.archetype) {
+            try {
+                const res = await fetch(
+                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${encodeURIComponent(currentCard.archetype)}`
+                );
+                const data = await res.json();
+                if (data.data) {
+                    const filtered = data.data.filter(
+                        (c) => c.id !== currentCard.id && !related.some((r) => r.id === c.id)
+                    );
+                    // mezclar al azar
+                    const shuffled = filtered.sort(() => 0.5 - Math.random());
+                    related = [...related, ...shuffled.slice(0, 7 - related.length)];
+                }
+            } catch (err) {
+                console.warn("No se pudieron traer cartas del arquetipo");
+            }
+        }
+
+        setRelatedCards(related.slice(0, 7));
+    };
 
     if (loading) {
         return (
@@ -294,6 +348,33 @@ function CardDetail() {
                 </div>
             </div>
 
+            {/* Cartas relacionadas */}
+            {relatedCards.length > 0 && (
+                <div className="w-full max-w-7xl mt-10">
+                    <h2 className="text-2xl font-bold text-blue-500 mb-4">
+                        Related Cards
+                    </h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                        {relatedCards.map((rc) => (
+                            <div
+                                key={rc.id}
+                                className={`cursor-pointer rounded-lg overflow-hidden shadow hover:scale-105 transition ${darkMode ? "bg-gray-800" : "bg-gray-100"
+                                    }`}
+                                onClick={() => navigate(`/card/${encodeURIComponent(rc.name)}`)}
+                            >
+                                <img
+                                    src={rc.card_images[0].image_url_small}
+                                    alt={rc.name}
+                                    className="w-full h-auto"
+                                />
+                                <p className="text-center text-sm font-semibold px-1 py-2 truncate">
+                                    {rc.name}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Modal de imagen */}
             {isModalOpen && (
