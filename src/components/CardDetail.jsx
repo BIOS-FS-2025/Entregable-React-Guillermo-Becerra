@@ -1,7 +1,97 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sword, Shield, Notebook, Hash } from "lucide-react";
+
+import darkIcon from "../assets/attributes/DARK.jpg";
+import lightIcon from "../assets/attributes/LIGHT.jpg";
+import windIcon from "../assets/attributes/WIND.jpg";
+import fireIcon from "../assets/attributes/FIRE.jpg";
+import earthIcon from "../assets/attributes/EARTH.jpg";
+import waterIcon from "../assets/attributes/WATER.jpg";
+import divineIcon from "../assets/attributes/DIVINE.jpg";
+
+import starIcon from "../assets/level/level.webp";
+
+import AquaIcon from "../assets/typing/Aqua.png";
+import BeastWarriorIcon from "../assets/typing/Beast-Warrior.png";
+import BeastIcon from "../assets/typing/Beast.png";
+import ContinuousIcon from "../assets/typing/Continuous.png";
+import CounterIcon from "../assets/typing/Counter.png";
+import CreatorGodIcon from "../assets/typing/Creator-God.png";
+import CyberseIcon from "../assets/typing/Cyberse.png";
+import DinosaurIcon from "../assets/typing/Dinosaur.png";
+import DivineBeastIcon from "../assets/typing/Divine-Beast.png";
+import DragonIcon from "../assets/typing/Dragon.png";
+import EquipIcon from "../assets/typing/Equip.png";
+import FairyIcon from "../assets/typing/Fairy.png";
+import FieldIcon from "../assets/typing/Field.png";
+import FiendIcon from "../assets/typing/Fiend.png";
+import FishIcon from "../assets/typing/Fish.png";
+import IllusionIcon from "../assets/typing/Illusion.png";
+import InsectIcon from "../assets/typing/Insect.png";
+import MachineIcon from "../assets/typing/Machine.png";
+import NormalIcon from "../assets/typing/Normal.png";
+import PlantIcon from "../assets/typing/Plant.png";
+import PsychicIcon from "../assets/typing/Psychic.png";
+import PyroIcon from "../assets/typing/Pyro.png";
+import QuickPlayIcon from "../assets/typing/Quick-Play.png";
+import ReptileIcon from "../assets/typing/Reptile.png";
+import RitualIcon from "../assets/typing/Ritual.png";
+import RockIcon from "../assets/typing/Rock.png";
+import SeaSerpentIcon from "../assets/typing/Sea Serpent.png";
+import SpellcasterIcon from "../assets/typing/Spellcaster.png";
+import ThunderIcon from "../assets/typing/Thunder.png";
+import WarriorIcon from "../assets/typing/Warrior.png";
+import WingedBeastIcon from "../assets/typing/Winged Beast.png";
+import WyrmIcon from "../assets/typing/Wyrm.png";
+import ZombieIcon from "../assets/typing/Zombie.png";
+
+const attributeIcons = {
+    DARK: darkIcon,
+    LIGHT: lightIcon,
+    WIND: windIcon,
+    FIRE: fireIcon,
+    EARTH: earthIcon,
+    WATER: waterIcon,
+    DIVINE: divineIcon,
+};
+
+const typingIcons = {
+    "Aqua": AquaIcon,
+    "Beast-Warrior": BeastWarriorIcon,
+    "Beast": BeastIcon,
+    "Continuous": ContinuousIcon,
+    "Counter": CounterIcon,
+    "Creator-God": CreatorGodIcon,
+    "Cyberse": CyberseIcon,
+    "Dinosaur": DinosaurIcon,
+    "Divine-Beast": DivineBeastIcon,
+    "Dragon": DragonIcon,
+    "Equip": EquipIcon,
+    "Fairy": FairyIcon,
+    "Field": FieldIcon,
+    "Fiend": FiendIcon,
+    "Fish": FishIcon,
+    "Illusion": IllusionIcon,
+    "Insect": InsectIcon,
+    "Machine": MachineIcon,
+    "Normal": NormalIcon,
+    "Plant": PlantIcon,
+    "Psychic": PsychicIcon,
+    "Pyro": PyroIcon,
+    "Quick-Play": QuickPlayIcon,
+    "Reptile": ReptileIcon,
+    "Ritual": RitualIcon,
+    "Rock": RockIcon,
+    "Sea Serpent": SeaSerpentIcon,
+    "Spellcaster": SpellcasterIcon,
+    "Thunder": ThunderIcon,
+    "Warrior": WarriorIcon,
+    "Winged Beast": WingedBeastIcon,
+    "Wyrm": WyrmIcon,
+    "Zombie": ZombieIcon,
+};
 
 function CardDetail() {
     const { name } = useParams();
@@ -89,48 +179,80 @@ function CardDetail() {
 
                         {card.type && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Type:</span> <br /> {card.type}
+                                <span className="font-bold">Type:</span>
+                                <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
+                                    <Notebook strokeWidth={2.5} className="h-5 w-5" />
+                                    {card.type}
+                                </div>
                             </div>
                         )}
                         {card.race && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Race:</span> <br /> {card.race}
+                                <span className="font-bold">Typing:</span>
+                                <div className="flex mt-1 gap-1 items-center">
+                                    <img src={typingIcons[card.race]} alt={card.race} className="w-5 h-5" />
+                                    {card.race}
+                                </div>
                             </div>
                         )}
                         {card.attribute && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Attribute:</span> <br /> {card.attribute}
+                                <span className="font-bold">Attribute:</span>
+                                <div className="flex mt-1 gap-1 items-center">
+                                    <img src={attributeIcons[card.attribute]} alt={card.attribute} className="w-5 h-5" />
+                                    {card.attribute}
+                                </div>
                             </div>
                         )}
                         {card.level && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Level:</span> <br /> {card.level}
+                                <span className="font-bold">Level:</span>
+                                <div className="flex mt-1 gap-1 items-center">
+                                    <img src={starIcon} alt="star icon" className="w-5 h-5" />
+                                    {card.level}
+                                </div>
                             </div>
                         )}
                         {card.rank && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Rank:</span> <br /> {card.rank}
+                                <span className="font-bold">Rank:</span>
+                                <div className="flex mt-1 gap-1 items-center">
+                                    <img src={starIcon} alt="star icon" className="w-5 h-5" />
+                                    {card.rank}
+                                </div>
                             </div>
                         )}
                         {card.atk !== undefined && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">ATK:</span> <br /> {card.atk}
+                                <span className="font-bold">ATK:</span>
+                                <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
+                                    <Sword strokeWidth={2.5} className="h-5 w-5" />
+                                    {card.atk}
+                                </div>
                             </div>
                         )}
                         {card.def !== undefined && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">DEF:</span> <br /> {card.def}
+                                <span className="font-bold">DEF:</span>
+                                <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
+                                    <Shield strokeWidth={2.5} className="h-5 w-5" />
+                                    {card.def}
+                                </div>
                             </div>
                         )}
                         {card.archetype && (
                             <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
-                                <span className="font-bold">Archetype:</span> <br /> {card.archetype}
+                                <span className="font-bold">Archetype:</span>
+                                <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
+                                    <Hash strokeWidth={2.5} className="h-5 w-5" />
+                                    {card.archetype}
+                                </div>
                             </div>
                         )}
                     </div>
                     <div>
-                    <h2 className="text-2xl font-bold text-blue-500 mb-1">Card Text:</h2>
-                    <p className="text-base font-medium leading-relaxed max-h-32 overflow-y-auto pr-2 whitespace-pre-line">{card.desc}</p>
+                        <h2 className="text-2xl font-bold text-blue-500 mb-1">Card Text:</h2>
+                        <p className="text-base font-medium leading-relaxed max-h-32 overflow-y-auto pr-2 whitespace-pre-line">{card.desc}</p>
                     </div>
                 </div>
             </div>
