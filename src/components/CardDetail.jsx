@@ -103,6 +103,7 @@ function CardDetail() {
 
     const [card, setCard] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [imageIndex, setImageIndex] = useState(0);
 
     useEffect(() => {
         const fetchCard = async () => {
@@ -112,6 +113,7 @@ function CardDetail() {
                 );
                 const data = await response.json();
                 setCard(data.data[0]);
+                setImageIndex(0);
             } catch (error) {
                 console.error("Error al traer la carta:", error);
             } finally {
@@ -144,6 +146,8 @@ function CardDetail() {
         );
     }
 
+    const hasMultipleImages = card.card_images.length > 1;
+
     return (
         <section
             className={`px-6 py-12 flex flex-col items-center 
@@ -162,16 +166,44 @@ function CardDetail() {
 
             {/* Card */}
             <div
-                className={`w-full max-w-4xl rounded-2xl shadow-lg overflow-hidden 
+                className={`w-full max-w-7xl rounded-2xl shadow-lg overflow-hidden 
                 flex flex-col md:flex-row gap-6 p-6 
                 ${darkMode ? "bg-gray-900" : "bg-white"}`}
             >
-                <div className="flex-shrink-0 flex justify-center">
-                    <img
-                        src={card.card_images[0].image_url}
-                        alt={card.name}
-                        className="w-80 h-auto max-h-[600px] object-contain cursor-zoom-in z-50 hover:scale-105 transition"
-                    />
+                <div className="space-y-4">
+                    <div className="flex-shrink-0 flex justify-center">
+                        <img
+                            src={card.card_images[imageIndex].image_url}
+                            alt={card.name}
+                            className="min-w-80 max-w-48 h-auto max-h-[600px] object-contain cursor-zoom-in z-50 hover:scale-105 transition"
+                        />
+                    </div>
+
+                    {/* Botones de navegación de imágenes */}
+                    {hasMultipleImages && (
+                        <div className="flex gap-3 justify-center">
+                            <button
+                                onClick={() =>
+                                    setImageIndex((prev) =>
+                                        prev === 0 ? card.card_images.length - 1 : prev - 1
+                                    )
+                                }
+                                className={`${darkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-100" : "bg-blue-500 hover:bg-blue-600 text-white"} px-4 py-2 rounded-lg shadow text-sm font-semibold disabled:opacity-50`}
+                            >
+                                Prev Illustration
+                            </button>
+                            <button
+                                onClick={() =>
+                                    setImageIndex((prev) =>
+                                        prev === card.card_images.length - 1 ? 0 : prev + 1
+                                    )
+                                }
+                                className={`${darkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-100" : "bg-blue-500 hover:bg-blue-600 text-white"} px-4 py-2 rounded-lg shadow text-sm font-semibold disabled:opacity-50`}
+                            >
+                                Next Illustration
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col justify-start flex-grow space-y-6">
