@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { ArrowLeft } from "lucide-react";
-import { FaBook, FaTags } from "react-icons/fa";
+import { ArrowLeft, X } from "lucide-react";
+import { FaBook, FaTags, FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { RiSwordFill, RiShieldFill } from "react-icons/ri";
 
 
@@ -104,6 +104,7 @@ function CardDetail() {
     const [card, setCard] = useState(null);
     const [loading, setLoading] = useState(true);
     const [imageIndex, setImageIndex] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchCard = async () => {
@@ -176,6 +177,7 @@ function CardDetail() {
                             src={card.card_images[imageIndex].image_url}
                             alt={card.name}
                             className="min-w-80 max-w-48 h-auto max-h-[600px] object-contain cursor-zoom-in z-50 hover:scale-105 transition"
+                            onClick={() => setIsModalOpen(true)}
                         />
                     </div>
 
@@ -291,6 +293,58 @@ function CardDetail() {
                     </div>
                 </div>
             </div>
+
+
+            {/* Modal de imagen */}
+            {isModalOpen && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        className="relative"
+                        onClick={(e) => e.stopPropagation()} // evita cerrar al clickear dentro
+                    >
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="absolute -top-8 right-0 text-white text-2xl hover:text-blue-500"
+                        >
+                            <X className="w-7 h-7" />
+                        </button>
+                        <img
+                            src={card.card_images[imageIndex].image_url}
+                            alt={card.name}
+                            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
+                        />
+
+                        {/* Botones navegación en modal */}
+                        {hasMultipleImages && (
+                            <div className="absolute inset-0 flex justify-between items-center px-4">
+                                <button
+                                    onClick={() =>
+                                        setImageIndex((prev) =>
+                                            prev === 0 ? card.card_images.length - 1 : prev - 1
+                                        )
+                                    }
+                                    className={`${darkMode ? "bg-gray-600 hover:bg-gray-700" : "bg-blue-600 hover:bg-blue-700"} text-white p-3 rounded-full -translate-x-20`}
+                                >
+                                    <FaChevronCircleLeft className="w-7 h-7" />
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        setImageIndex((prev) =>
+                                            prev === card.card_images.length - 1 ? 0 : prev + 1
+                                        )
+                                    }
+                                    className={`${darkMode ? "bg-gray-600 hover:bg-gray-700" : "bg-blue-600 hover:bg-blue-700"} text-white p-3 rounded-full translate-x-20`}
+                                >
+                                    <FaChevronCircleRight className="w-7 h-7" />
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </section >
     );
 }
