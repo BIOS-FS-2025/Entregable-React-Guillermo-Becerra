@@ -1,7 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { ArrowLeft, Sword, Shield, Notebook, Hash } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { FaBook, FaTags } from "react-icons/fa";
+import { RiSwordFill, RiShieldFill } from "react-icons/ri";
+
 
 import darkIcon from "../assets/attributes/DARK.jpg";
 import lightIcon from "../assets/attributes/LIGHT.jpg";
@@ -178,16 +181,16 @@ function CardDetail() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
 
                         {card.type && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Type:</span>
                                 <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
-                                    <Notebook strokeWidth={2.5} className="h-5 w-5" />
+                                    <FaBook className="h-5 w-5" />
                                     {card.type}
                                 </div>
                             </div>
                         )}
                         {card.race && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Typing:</span>
                                 <div className="flex mt-1 gap-1 items-center">
                                     <img src={typingIcons[card.race]} alt={card.race} className="w-5 h-5" />
@@ -196,7 +199,7 @@ function CardDetail() {
                             </div>
                         )}
                         {card.attribute && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Attribute:</span>
                                 <div className="flex mt-1 gap-1 items-center">
                                     <img src={attributeIcons[card.attribute]} alt={card.attribute} className="w-5 h-5" />
@@ -205,7 +208,7 @@ function CardDetail() {
                             </div>
                         )}
                         {card.level && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Level:</span>
                                 <div className="flex mt-1 gap-1 items-center">
                                     <img src={starIcon} alt="star icon" className="w-5 h-5" />
@@ -214,7 +217,7 @@ function CardDetail() {
                             </div>
                         )}
                         {card.rank && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Rank:</span>
                                 <div className="flex mt-1 gap-1 items-center">
                                     <img src={starIcon} alt="star icon" className="w-5 h-5" />
@@ -223,28 +226,28 @@ function CardDetail() {
                             </div>
                         )}
                         {card.atk !== undefined && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">ATK:</span>
                                 <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
-                                    <Sword strokeWidth={2.5} className="h-5 w-5" />
+                                    <RiSwordFill className="h-5 w-5" />
                                     {card.atk}
                                 </div>
                             </div>
                         )}
                         {card.def !== undefined && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">DEF:</span>
                                 <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
-                                    <Shield strokeWidth={2.5} className="h-5 w-5" />
+                                    <RiShieldFill className="h-5 w-5" />
                                     {card.def}
                                 </div>
                             </div>
                         )}
                         {card.archetype && (
-                            <div className="px-4 py-2 rounded-lg shadow bg-blue-500 text-white">
+                            <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Archetype:</span>
                                 <div className="flex mt-1 gap-1 items-center whitespace-nowrap">
-                                    <Hash strokeWidth={2.5} className="h-5 w-5" />
+                                    <FaTags className="h-5 w-5" />
                                     {card.archetype}
                                 </div>
                             </div>
@@ -252,7 +255,7 @@ function CardDetail() {
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold text-blue-500 mb-1">Card Text:</h2>
-                        <p className="text-base font-medium leading-relaxed max-h-32 overflow-y-auto pr-2 whitespace-pre-line">{card.desc}</p>
+                        <p className={`${darkMode ? "text-gray-100" : "text-black"} text-base font-medium leading-relaxed max-h-32 overflow-y-auto pr-2 whitespace-pre-line`}>{card.desc}</p>
                     </div>
                 </div>
             </div>
