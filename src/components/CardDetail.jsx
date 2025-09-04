@@ -110,8 +110,11 @@ function CardDetail() {
     useEffect(() => {
         const fetchCard = async () => {
             try {
+
+                const cleanName = name.replace(/#/g, "");
+
                 const response = await fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(name)}`
+                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(cleanName)}`
                 );
                 const data = await response.json();
                 const currentCard = data.data[0];

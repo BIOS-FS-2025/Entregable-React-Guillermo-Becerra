@@ -41,7 +41,7 @@ const CardModal = ({ isOpen, onClose, card }) => {
                         {/* Botón de más info */}
                         <div className="mt-6 flex justify-center">
                             <Link
-                                to={`/card/${card.name}`}
+                                to={`/card/${encodeURIComponent(card.name.replace(/#/g, ""))}`}
                                 className="w-2/3 text-center px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-semibold transition"
                             >
                                 Detailed info

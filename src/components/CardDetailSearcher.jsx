@@ -37,7 +37,8 @@ const CardDetailSearcher = ({ allCards, navigate }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isValidCard) {
-            navigate(`/card/${search}`);
+            const cleanSearch = search.replace(/#/g, "");
+            navigate(`/card/${cleanSearch}`);
         }
     };
 
