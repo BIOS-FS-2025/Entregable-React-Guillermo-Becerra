@@ -111,7 +111,7 @@ function CardDetail() {
         const fetchCard = async () => {
             try {
                 const response = await fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name}`
+                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(name)}`
                 );
                 const data = await response.json();
                 const currentCard = data.data[0];
