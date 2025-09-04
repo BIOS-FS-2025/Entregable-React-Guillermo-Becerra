@@ -133,41 +133,86 @@ function CardDetail() {
     const fetchRelated = async (currentCard) => {
         let related = [];
 
-        // --- Grupo 1: nombres entre comillas ---
+        // --- Grupo 1: cartas mencionadas en el texto de la carta actual ---
         if (currentCard.desc) {
-            const regex = /"([^"]+)"/g; // busca textos entre comillas
+            const regex = /"([^"]+)"/g;
             let match;
+            const mentionedNames = [];
+
             while ((match = regex.exec(currentCard.desc)) !== null) {
                 const cardName = match[1].trim();
-                if (cardName && cardName.toLowerCase() !== currentCard.name.toLowerCase()) {
-                    try {
-                        const res = await fetch(
-                            `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(cardName)}`
-                        );
-                        const data = await res.json();
-                        if (data.data && data.data[0] && !related.some(r => r.id === data.data[0].id)) {
-                            related.push(data.data[0]);
-                        }
-                    } catch (err) {
-                        console.warn("No se encontró carta mencionada:", cardName);
-                    }
+                if (
+                    cardName &&
+                    cardName.toLowerCase() !== currentCard.name.toLowerCase() &&
+                    !mentionedNames.includes(cardName.toLowerCase())
+                ) {
+                    mentionedNames.push(cardName);
                 }
-                if (related.length >= 7) break; // máximo 7
+            }
+
+            // Fetch paralelo
+            const fetchPromises = mentionedNames.map((name) =>
+                fetch(
+                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(name)}`
+                )
+                    .then((res) => res.json())
+                    .then((data) => (data.data ? data.data[0] : null))
+                    .catch(() => null)
+            );
+
+            const results = await Promise.allSettled(fetchPromises);
+
+            results.forEach((result) => {
+                if (
+                    result.status === "fulfilled" &&
+                    result.value &&
+                    !related.some((r) => r.id === result.value.id)
+                ) {
+                    related.push(result.value);
+                }
+            });
+        }
+
+        // --- Grupo 2: cartas que mencionen esta carta en su texto ---
+        if (related.length < 7) {
+            try {
+                const res = await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php`);
+                const data = await res.json();
+
+                if (data.data) {
+                    // Buscar cartas cuya descripción contenga el nombre exacto de la carta actual
+                    const mentionsCurrent = data.data.filter(
+                        (c) =>
+                            c.id !== currentCard.id &&
+                            c.desc &&
+                            c.desc.toLowerCase().includes(currentCard.name.toLowerCase()) &&
+                            !related.some((r) => r.id === c.id)
+                    );
+
+                    // Mezclar y seleccionar al azar hasta llenar 6
+                    const shuffled = mentionsCurrent.sort(() => 0.5 - Math.random());
+                    related = [...related, ...shuffled.slice(0, 7 - related.length)];
+                }
+            } catch (err) {
+                console.warn("No se pudieron traer cartas que mencionen a la actual");
             }
         }
 
-        // --- Grupo 2: cartas del mismo archetype ---
+        // --- Grupo 3: arquetipo (sólo rellena el slot 7) ---
         if (related.length < 7 && currentCard.archetype) {
             try {
                 const res = await fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${encodeURIComponent(currentCard.archetype)}`
+                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${encodeURIComponent(
+                        currentCard.archetype
+                    )}`
                 );
                 const data = await res.json();
+
                 if (data.data) {
                     const filtered = data.data.filter(
                         (c) => c.id !== currentCard.id && !related.some((r) => r.id === c.id)
                     );
-                    // mezclar al azar
+
                     const shuffled = filtered.sort(() => 0.5 - Math.random());
                     related = [...related, ...shuffled.slice(0, 7 - related.length)];
                 }
@@ -181,11 +226,13 @@ function CardDetail() {
 
     if (loading) {
         return (
-            <div
-                className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-950 text-gray-200" : "bg-gray-100 text-gray-800"
-                    }`}
-            >
-                <p>Loading card...</p>
+            <div className="mt-32 flex flex-col items-center justify-center py-6">
+                {/* Spinner */}
+                <div className="w-20 h-20 border-8 border-blue-500 border-dashed rounded-full animate-spin"></div>
+                {/* Texto */}
+                <p className={`${darkMode ? "text-gray-200" : "text-gray-400"} mt-3 text-center text-2xl font-medium`}>
+                    Loading card...
+                </p>
             </div>
         );
     }
