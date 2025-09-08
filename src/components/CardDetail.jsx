@@ -277,9 +277,9 @@ function CardDetail() {
             className={`px-6 py-12 flex flex-col items-center 
         ${darkMode ? "text-gray-100" : "text-gray-900"}`}
         >
-            {/* Search Btn */}
+            {/* ---------- Search Btn ---------- */}
             <button
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(`/card`)}
                 className={`font-semibold mb-8 flex items-center gap-2 px-4 py-2 rounded-lg shadow 
             transition-all duration-300 
             ${darkMode ? "bg-gray-900 hover:bg-blue-800" : "bg-white hover:bg-blue-200"}`}
@@ -288,7 +288,7 @@ function CardDetail() {
                 Card Searcher
             </button>
 
-            {/* Card */}
+            {/* ---------- Card ---------- */}
             <div
                 className={`w-full max-w-7xl rounded-2xl shadow-lg overflow-hidden 
                 flex flex-col md:flex-row gap-6 p-6 
@@ -299,12 +299,12 @@ function CardDetail() {
                         <img
                             src={card.card_images[imageIndex].image_url}
                             alt={card.name}
-                            className="min-w-80 max-w-48 h-auto max-h-[600px] object-contain cursor-zoom-in z-50 hover:scale-105 transition"
+                            className="min-w-80 max-w-48 h-auto max-h-[600px] object-contain cursor-zoom-in z-50 hover:scale-105 transition rounded-xl"
                             onClick={() => setIsModalOpen(true)}
                         />
                     </div>
 
-                    {/* Alt img btns */}
+                    {/* ---------- Alt img btns ---------- */}
                     {hasMultipleImages && (
                         <div className="flex gap-3 justify-center">
                             <button
