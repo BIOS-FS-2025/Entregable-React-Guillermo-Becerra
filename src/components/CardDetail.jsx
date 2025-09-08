@@ -107,6 +107,10 @@ function CardDetail() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [relatedCards, setRelatedCards] = useState([]);
 
+    /* -------------------------------------------------------------------------- */
+    /*                                    Fetch                                   */
+    /* -------------------------------------------------------------------------- */
+
     useEffect(() => {
         const fetchCard = async () => {
             try {
@@ -121,10 +125,10 @@ function CardDetail() {
                 setCard(currentCard);
                 setImageIndex(0);
 
-                // Traer relacionadas
+                // Related Cards
                 fetchRelated(currentCard);
             } catch (error) {
-                console.error("Error al traer la carta:", error);
+                console.error("Can't find card:", error);
             } finally {
                 setLoading(false);
             }
@@ -133,10 +137,14 @@ function CardDetail() {
         fetchCard();
     }, [name]);
 
+    /* -------------------------------------------------------------------------- */
+    /*                             Related Cards Fetch                            */
+    /* -------------------------------------------------------------------------- */
+
     const fetchRelated = async (currentCard) => {
         let related = [];
 
-        // --- Grupo 1: cartas mencionadas en el texto de la carta actual ---
+        /* ------------ Group 1: Cards mentioned in the current card text ----------- */
         if (currentCard.desc) {
             const regex = /"([^"]+)"/g;
             let match;
@@ -153,7 +161,7 @@ function CardDetail() {
                 }
             }
 
-            // Fetch paralelo
+            // Cards Fetch
             const fetchPromises = mentionedNames.map((name) =>
                 fetch(
                     `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(name)}`
@@ -176,14 +184,15 @@ function CardDetail() {
             });
         }
 
-        // --- Grupo 2: cartas que mencionen esta carta en su texto ---
+        /* ------- Group 2: Cards that mention the current card in their text ------- */
+
         if (related.length < 7) {
             try {
                 const res = await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php`);
                 const data = await res.json();
 
                 if (data.data) {
-                    // Buscar cartas cuya descripción contenga el nombre exacto de la carta actual
+                    // Search current card name on other cards description
                     const mentionsCurrent = data.data.filter(
                         (c) =>
                             c.id !== currentCard.id &&
@@ -192,16 +201,16 @@ function CardDetail() {
                             !related.some((r) => r.id === c.id)
                     );
 
-                    // Mezclar y seleccionar al azar hasta llenar 6
+                    // Random selection
                     const shuffled = mentionsCurrent.sort(() => 0.5 - Math.random());
                     related = [...related, ...shuffled.slice(0, 7 - related.length)];
                 }
             } catch (err) {
-                console.warn("No se pudieron traer cartas que mencionen a la actual");
+                console.warn("Can't find cards that mentions the current card");
             }
         }
 
-        // --- Grupo 3: arquetipo (sólo rellena el slot 7) ---
+        /* --------------------------- Group 3: Archetype --------------------------- */
         if (related.length < 7 && currentCard.archetype) {
             try {
                 const res = await fetch(
@@ -220,12 +229,18 @@ function CardDetail() {
                     related = [...related, ...shuffled.slice(0, 7 - related.length)];
                 }
             } catch (err) {
-                console.warn("No se pudieron traer cartas del arquetipo");
+                console.warn("Can't find cards with same Archetype or Archetype not found");
             }
         }
 
         setRelatedCards(related.slice(0, 7));
     };
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Return                                   */
+    /* -------------------------------------------------------------------------- */
+
+    /* --------------------------------- Loading -------------------------------- */
 
     if (loading) {
         return (
@@ -240,6 +255,8 @@ function CardDetail() {
         );
     }
 
+    /* ---------------------------------- Error --------------------------------- */
+
     if (!card) {
         return (
             <div
@@ -251,6 +268,8 @@ function CardDetail() {
         );
     }
 
+    /* ------------------------------- Card Detail ------------------------------ */
+
     const hasMultipleImages = card.card_images.length > 1;
 
     return (
@@ -258,7 +277,7 @@ function CardDetail() {
             className={`px-6 py-12 flex flex-col items-center 
         ${darkMode ? "text-gray-100" : "text-gray-900"}`}
         >
-            {/* Botón volver */}
+            {/* Search Btn */}
             <button
                 onClick={() => navigate(-1)}
                 className={`font-semibold mb-8 flex items-center gap-2 px-4 py-2 rounded-lg shadow 
@@ -266,7 +285,7 @@ function CardDetail() {
             ${darkMode ? "bg-gray-900 hover:bg-blue-800" : "bg-white hover:bg-blue-200"}`}
             >
                 <ArrowLeft className="w-5 h-5" />
-                Back
+                Card Searcher
             </button>
 
             {/* Card */}
@@ -285,7 +304,7 @@ function CardDetail() {
                         />
                     </div>
 
-                    {/* Botones de navegación de imágenes */}
+                    {/* Alt img btns */}
                     {hasMultipleImages && (
                         <div className="flex gap-3 justify-center">
                             <button
@@ -313,9 +332,11 @@ function CardDetail() {
                 </div>
 
                 <div className="flex flex-col justify-start flex-grow space-y-6">
+
+                    {/* ------------------------------ Card Name ------------------------------ */}
                     <h1 className="text-4xl font-bold text-blue-500">{card.name}</h1>
 
-                    {/* Info en tarjetas */}
+                    {/* ------------------------------ Info Tags ------------------------------ */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
 
                         {card.type && (
@@ -327,6 +348,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.race && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Typing:</span>
@@ -336,6 +358,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.attribute && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Attribute:</span>
@@ -345,6 +368,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.level && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Level:</span>
@@ -354,6 +378,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.rank && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Rank:</span>
@@ -363,6 +388,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.atk !== undefined && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">ATK:</span>
@@ -372,6 +398,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.def !== undefined && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">DEF:</span>
@@ -381,6 +408,7 @@ function CardDetail() {
                                 </div>
                             </div>
                         )}
+
                         {card.archetype && (
                             <div className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-blue-500 text-white"} px-4 py-2 rounded-lg shadow`}>
                                 <span className="font-bold">Archetype:</span>
@@ -391,6 +419,8 @@ function CardDetail() {
                             </div>
                         )}
                     </div>
+
+                    {/* ------------------------------ Card Text ------------------------------ */}
                     <div>
                         <h2 className="text-2xl font-bold text-blue-500 mb-1">Card Text:</h2>
                         <p className={`${darkMode ? "text-gray-100" : "text-black"} text-base font-medium leading-relaxed max-h-32 overflow-y-auto pr-2 whitespace-pre-line`}>{card.desc}</p>
@@ -398,11 +428,11 @@ function CardDetail() {
                 </div>
             </div>
 
-            {/* Cartas relacionadas */}
+            {/* ------------------------------ Cartas relacionadas ------------------------------ */}
             {relatedCards.length > 0 && (
                 <div className="w-full max-w-7xl mt-10">
                     <h2 className="text-2xl font-bold text-blue-500 mb-4">
-                        Related Cards
+                        Related Cards:
                     </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
                         {relatedCards.map((rc) => (
@@ -426,7 +456,7 @@ function CardDetail() {
                 </div>
             )}
 
-            {/* Modal de imagen */}
+            {/* ------------------------------ Modal de imagen ------------------------------ */}
             {isModalOpen && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
@@ -434,7 +464,7 @@ function CardDetail() {
                 >
                     <div
                         className="relative"
-                        onClick={(e) => e.stopPropagation()} // evita cerrar al clickear dentro
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <button
                             onClick={() => setIsModalOpen(false)}
@@ -448,7 +478,7 @@ function CardDetail() {
                             className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
                         />
 
-                        {/* Botones navegación en modal */}
+                        {/* ---------- Modal Alt Img Btns ---------- */}
                         {hasMultipleImages && (
                             <div className="absolute inset-0 flex justify-between items-center px-4">
                                 <button

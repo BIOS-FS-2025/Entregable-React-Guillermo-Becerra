@@ -68,7 +68,7 @@ const CardDetailSearcher = ({ allCards, navigate }) => {
                     />
 
                     <GoButton
-                        isValidCard={isValidCard} // 🔹 se puede renombrar a isValidCard
+                        isValidCard={isValidCard}
                         handleSubmit={handleSubmit}
                     />
                 </form>
