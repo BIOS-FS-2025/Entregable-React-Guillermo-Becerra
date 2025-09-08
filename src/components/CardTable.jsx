@@ -9,19 +9,28 @@ function CardTable() {
 
     const { darkMode } = useTheme();
 
+    /* -------------------------------------------------------------------------- */
+    /*                                  useState                                  */
+    /* -------------------------------------------------------------------------- */
+
+    /* ------------------------------- Cards Fetch ------------------------------ */
+
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Paginación
+    /* ------------------------------- Pagination ------------------------------- */
+
     const [currentPage, setCurrentPage] = useState(1);
     const cardsPerPage = 20;
 
-    // Ordenación
-    const [sortColumn, setSortColumn] = useState(null);
-    const [sortOrder, setSortOrder] = useState("asc"); // "asc" o "desc"
+    /* ---------------------------------- Sort ---------------------------------- */
 
-    //Filtros
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortOrder, setSortOrder] = useState("asc");
+
+    /* --------------------------------- Filter --------------------------------- */
+
     const [filters, setFilters] = useState({
         level: "",
         type: "",
@@ -29,14 +38,19 @@ function CardTable() {
         attribute: ""
     });
 
+    /* -------------------------------- Searcher -------------------------------- */
 
-    // Nuevo estado para búsqueda
     const [searchTerm, setSearchTerm] = useState("");
 
-    // 🔹 Aquí va el useEffect para resetear la página al filtrar
+    /* -------------------------------------------------------------------------- */
+    /*                                  useEffect                                 */
+    /* -------------------------------------------------------------------------- */
+
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm, filters]);
+
+    /* -------------------------- Fetch cards from API -------------------------- */
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -54,7 +68,7 @@ function CardTable() {
         fetchCards();
     }, []);
 
-    // Filtrado por búsqueda
+    /* ------------------------------ Search filter ----------------------------- */
     const filteredCards = cards.filter(card =>
         card.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (filters.level === "" || (card.level?.toString() === filters.level || card.rank?.toString() === filters.level)) &&
@@ -66,7 +80,7 @@ function CardTable() {
     );
 
 
-    // Ordenar
+    /* ---------------------------------- Sort ---------------------------------- */
     const sortedCards = [...filteredCards].sort((a, b) => {
         if (!sortColumn) return 0;
 
@@ -82,18 +96,14 @@ function CardTable() {
             : String(valB).localeCompare(String(valA));
     });
 
-    // Manejo de ordenación
     const handleSort = (column) => {
         if (sortColumn === column) {
-            // Si ya estamos ordenando por esta columna, invertimos el orden
             setSortOrder(sortOrder === "asc" ? "desc" : "asc");
         } else {
-            // Si es una nueva columna, empezamos en ascendente
             setSortColumn(column);
             setSortOrder("asc");
         }
 
-        // 🔹 Si se ordena por Level/Rank, ATK o DEF, forzamos filtro a Monster
         if (["level", "atk", "def"].includes(column)) {
             setFilters((prev) => ({
                 ...prev,
@@ -102,39 +112,41 @@ function CardTable() {
         }
     };
 
-    // Calcular paginación después de ordenar
-    const indexOfLastCard = currentPage * cardsPerPage;
-    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-    const currentCards = sortedCards.slice(indexOfFirstCard, indexOfLastCard);
-
-    // Helper para mostrar flecha en la columna ordenada
     const renderSortArrow = (column) => {
         if (sortColumn !== column) return "";
         return sortOrder === "asc" ? " ▲" : " ▼";
     };
 
+    /* ------------------------------- Pagination ------------------------------- */
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    const currentCards = sortedCards.slice(indexOfFirstCard, indexOfLastCard);
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Return                                   */
+    /* -------------------------------------------------------------------------- */
+
     return (
         <div>
             {loading && (
                 <div className="flex flex-col items-center justify-center py-6">
-                    {/* Spinner */}
                     <div className="w-20 h-20 border-8 border-blue-500 border-dashed rounded-full animate-spin"></div>
-                    {/* Texto */}
                     <p className="mt-3 text-center text-gray-400 text-2xl font-medium">
                         Loading cards...
                     </p>
                 </div>
             )}
+
             {error && <p className="text-center text-red-500">{error}</p>}
 
             {!loading && !error && (
                 <>
 
-                    {/* Barra de búsqueda y Filtros */}
+                    {/* SearchBar and Filters */}
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                     <FilterBar filters={filters} setFilters={setFilters} />
 
-                    {/* Tabla */}
+                    {/* Table */}
                     <div className="overflow-x-auto">
                         <table className={`${darkMode ? "bg-gray-900" : "bg-gray-800"} min-w-full text-gray-300 rounded-lg overflow-hidden`}>
                             <thead>
@@ -165,9 +177,9 @@ function CardTable() {
                         </table>
                     </div>
 
-                    {/* Paginación */}
+                    {/* Pagination */}
                     <Pagination
-                        totalCards={filteredCards.length} // 🔹 usar filteredCards aquí
+                        totalCards={filteredCards.length}
                         cardsPerPage={cardsPerPage}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}

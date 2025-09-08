@@ -16,9 +16,7 @@ const Instructions = () => {
                         <strong>Instructions:</strong>
                     </p>
                 </span>
-                <p className="italic">
-                    This is a list of all cards on our database.
-                </p>
+                <p className="italic">This is a list of all cards on our database.</p>
                 <p className="font-semibold">Type in the search bar to find a card by name.</p>
                 <p className="font-semibold">Filter cards by different characteristics using the drop-down menus.</p>
                 <p className="font-semibold">Sort cards by Level/Rank, Name, ATK or DEF by clicking on the table headers.<br />Click again to reverse the order.</p>

@@ -1,4 +1,5 @@
 const GoButton = ({ isValidCard, handleSubmit }) => (
+
     <div className="relative group">
         <button
             type="submit"
@@ -11,6 +12,7 @@ const GoButton = ({ isValidCard, handleSubmit }) => (
         >
             See Details
         </button>
+
         {!isValidCard && (
             <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-4 py-4 text-md text-white bg-blue-600 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 There is no card with that name.

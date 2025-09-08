@@ -133,6 +133,7 @@ function CardTableRow({ card }) {
             <tr className={`${darkMode ? "hover:bg-gray-800" : "hover:bg-gray-700"} border-b border-gray-700 transition-colors divide-x divide-gray-700 cursor-pointer`}
                 onClick={() => setIsModalOpen(true)}
             >
+                {/* Level/Rank */}
                 <td className="px-4 py-2 flex items-center space-x-2">
                     {(card.level || card.rank || card.linkval) && (
                         <img src={starIcon} alt="Level Icon" className="w-5 h-5" />
@@ -140,12 +141,15 @@ function CardTableRow({ card }) {
                     <span>{card.level || card.rank || card.linkval || "-"}</span>
                 </td>
 
+                {/* Name */}
                 <td className="px-4 py-2 font-semibold text-white">{card.name}</td>
 
+                {/* Type */}
                 <td className={`px-4 py-2 ${typeColors[card.type] || "text-gray-300"}`}>
                     {card.type || "-"}
                 </td>
 
+                {/* Typing */}
                 <td className="px-4 py-2">
                     <div className="flex items-center space-x-2">
                         {card.race && typingIcons[card.race] && (
@@ -159,7 +163,7 @@ function CardTableRow({ card }) {
                     </div>
                 </td>
 
-                {/* Attribute con ícono */}
+                {/* Attribute */}
                 <td className="px-4 py-2">
                     <div className="flex items-center space-x-2">
                         {card.attribute && attributeIcons[card.attribute] && (
@@ -173,8 +177,13 @@ function CardTableRow({ card }) {
                     </div>
                 </td>
 
+                {/* ATK */}
                 <td className="px-4 py-2">{atkValue}</td>
+
+                {/* DEF */}
                 <td className="px-4 py-2">{defValue}</td>
+
+                {/* Archetype */}
                 <td className="px-4 py-2">{card.archetype || "-"}</td>
             </tr>
 

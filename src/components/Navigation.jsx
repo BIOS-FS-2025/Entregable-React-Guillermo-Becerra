@@ -17,7 +17,7 @@ function Navigation() {
                             <img
                                 src={kclogo}
                                 alt="Kaiba Corp Logo"
-                                className="h-14 w-auto" // 👈 altura fija, ancho automático
+                                className="h-14 w-auto"
                             />
                             <span className="text-xl font-bold tracking-wide text-blue-400">KAIBAPEDIA</span>
                         </div>

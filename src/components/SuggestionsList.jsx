@@ -1,4 +1,5 @@
 const SuggestionsList = ({ filtered, showSuggestions, handleSelect }) => {
+    
     if (!showSuggestions || filtered.length === 0) return null;
 
     return (

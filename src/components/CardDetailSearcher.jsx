@@ -19,7 +19,7 @@ const CardDetailSearcher = ({ allCards, navigate }) => {
             const results = allCards.filter(c =>
                 c.toLowerCase().includes(value.toLowerCase())
             );
-            setFiltered(results.slice(0, 10)); // mostramos máximo 10 sugerencias
+            setFiltered(results.slice(0, 10));
             setShowSuggestions(true);
         } else {
             setFiltered([]);

@@ -10,7 +10,6 @@ function Footer() {
             <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
 
-                    {/* Logo + Nombre */}
                     <div className="flex items-center space-x-3">
                         <img
                             src={kcLogo}
@@ -22,7 +21,6 @@ function Footer() {
                         </span>
                     </div>
 
-                    {/* Texto creativo */}
                     <p className="text-sm text-center sm:text-right">
                         © {new Date().getFullYear()} KaibaCorp™.
                         All rights reserved.

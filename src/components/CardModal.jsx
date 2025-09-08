@@ -21,7 +21,7 @@ const CardModal = ({ isOpen, onClose, card }) => {
                         exit={{ scale: 0.9, opacity: 0 }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* Botón cerrar */}
+                        {/* Close Btn */}
                         <button
                             onClick={onClose}
                             className="absolute top-2 right-2 text-gray-400 hover:text-white text-xl"
@@ -29,7 +29,7 @@ const CardModal = ({ isOpen, onClose, card }) => {
                             ✕
                         </button>
 
-                        {/* Imagen */}
+                        {/* Img */}
                         <div className="flex justify-center">
                             <img
                                 src={card.card_images?.[0]?.image_url}
@@ -38,14 +38,14 @@ const CardModal = ({ isOpen, onClose, card }) => {
                             />
                         </div>
 
-                        {/* Botón de más info */}
+                        {/* Detail Btn */}
                         <div className="mt-6 flex justify-center">
                             <Link
                                 to={`/card/${encodeURIComponent(card.name.replace(/#/g, ""))}`}
                                 className="w-2/3 text-center px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-semibold transition"
                             >
                                 Detailed info
-                            </Link>
+                            </Link>  
                         </div>
                     </motion.div>
                 </motion.div>

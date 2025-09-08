@@ -1,6 +1,6 @@
 import { useTheme } from "../context/ThemeContext";
 
-function FilterBar({ filters, setFilters, allTypings }) {
+function FilterBar({ filters, setFilters }) {
 
     const { darkMode } = useTheme();
 
@@ -18,22 +18,21 @@ function FilterBar({ filters, setFilters, allTypings }) {
         });
     };
 
-    // 🔹 Deshabilitar Level si Type es Spell o Trap
+    /* --------- Deshabilitar Level y Attribute si Type es Spell o Trap --------- */
     const disableLevel = filters.type === "Spell Card" || filters.type === "Trap Card" || filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
     const disableAttribute = filters.type === "Spell Card" || filters.type === "Trap Card" || filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
 
-    // Deshabilitar Type Monster si Typing es del Spell/Trap group
+    /* ----- Deshailitar Monster en Type y Typing si ahí están Spells/Traps ----- */
     const disableMonsterType = filters.race === "Continuous" || filters.race === "Counter" || filters.race === "Equip" || filters.race === "Field" || filters.race === "Normal" || filters.race === "Quick-Play" || filters.race === "Ritual";
+    const disableMonsterTypings = filters.type === "Spell Card" || filters.type === "Trap Card";
 
-    // 🔹 Bloquear Spell/Trap si Level o Attribute están seleccionados, o dependiendo del Typing
+    /* - Deshabilitar Spell/Trap si Level, Attribute o Typing están seleccionados - */
     const disableSpellTrap = filters.level !== "" || filters.attribute !== "";
     const disableSpellType = filters.race !== "" && filters.race !== "Continuous" && filters.race !== "Equip" && filters.race !== "Field" && filters.race !== "Normal" && filters.race !== "Quick-Play" && filters.race !== "Ritual";
     const disableTrapType = filters.race !== "" && filters.race !== "Continuous" && filters.race !== "Counter" && filters.race !== "Normal";
-
-    // 🔹 Lógica para Typings según el Type seleccionado
     const disableSpellTrapTypings = filters.type === "Monster Card";
-    const disableMonsterTypings = filters.type === "Spell Card" || filters.type === "Trap Card";
 
+    /* --------------- Deshabilitar Typings según Type Spell/Trap --------------- */
     const disableExtraForSpell = filters.type === "Spell Card";
     const disableExtraForTrap = filters.type === "Trap Card";
 
@@ -140,7 +139,7 @@ function FilterBar({ filters, setFilters, allTypings }) {
                 <option value="DIVINE">DIVINE</option>
             </select>
 
-            {/* Botón de reset */}
+            {/* Reset */}
             <button
                 onClick={handleReset}
                 className={`${darkMode ? "bg-blue-700 hover:bg-blue-600" : "bg-blue-500 hover:bg-blue-600"} px-4 py-2 text-white rounded transition-colors`}

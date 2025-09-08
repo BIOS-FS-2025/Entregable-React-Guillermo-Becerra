@@ -18,19 +18,16 @@ function Hero() {
             </div>
 
             <div className="relative max-w-4xl mx-auto px-6 text-center">
-                {/* Title */}
                 <h1 className="text-4xl md:text-6xl font-extrabold text-blue-400 drop-shadow-lg">
                     Kaiba Corporation Encyclopedia
                 </h1>
 
-                {/* Description */}
                 <p className="mt-6 text-lg md:text-xl text-gray-300 leading-relaxed">
                     The ultimate KaibaCorp™ project.
                     The most complete, advanced, and official card database
                     for true duelists around the world.
                 </p>
 
-                {/* Call to action */}
                 <Link to={"card"}>
                     <div className="mt-8">
                         <a

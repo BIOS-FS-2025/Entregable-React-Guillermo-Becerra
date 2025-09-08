@@ -13,7 +13,6 @@ function SearcherLayout() {
 
             <Navigation />
             <main className="flex-grow relative overflow-hidden">
-                {/* Logo de fondo confinado al main */}
                 <div className="absolute inset-0 flex justify-end items-center opacity-10 pointer-events-none">
                     <img
                         src={kclogo}
