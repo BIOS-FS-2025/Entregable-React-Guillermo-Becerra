@@ -55,7 +55,7 @@ function CardTable() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await fetch("https://db.ygoprodeck.com/api/v7/cardinfo.php");
+                const res = await fetch(`${import.meta.env.VITE_YUGIOH_API_URL}`);
                 const data = await res.json();
                 setCards(data.data);
             } catch (err) {

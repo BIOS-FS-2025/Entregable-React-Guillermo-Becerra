@@ -25,7 +25,7 @@ function CardDetail() {
             try {
                 const cleanName = name.replace(/#/g, "");
                 const response = await fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(cleanName)}`
+                    `${import.meta.env.VITE_YUGIOH_API_URL}?name=${encodeURIComponent(cleanName)}`
                 );
                 const data = await response.json();
                 const currentCard = data.data[0];
@@ -64,7 +64,7 @@ function CardDetail() {
             // Cards Fetch
             const fetchPromises = mentionedNames.map((name) =>
                 fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${encodeURIComponent(name)}`
+                    `${import.meta.env.VITE_YUGIOH_API_URL}?name=${encodeURIComponent(name)}`
                 )
                     .then((res) => res.json())
                     .then((data) => (data.data ? data.data[0] : null))
@@ -88,7 +88,7 @@ function CardDetail() {
 
         if (related.length < 7) {
             try {
-                const res = await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php`);
+                const res = await fetch(`${import.meta.env.VITE_YUGIOH_API_URL}`);
                 const data = await res.json();
 
                 if (data.data) {
@@ -114,7 +114,7 @@ function CardDetail() {
         if (related.length < 7 && currentCard.archetype) {
             try {
                 const res = await fetch(
-                    `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${encodeURIComponent(
+                    `${import.meta.env.VITE_YUGIOH_API_URL}?archetype=${encodeURIComponent(
                         currentCard.archetype
                     )}`
                 );

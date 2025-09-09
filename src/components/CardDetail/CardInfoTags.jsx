@@ -34,12 +34,12 @@ const CardInfoTags = ({ card, darkMode }) => (
         )}
         {card.atk !== undefined && (
             <Tag darkMode={darkMode} label="ATK">
-                <RiSwordFill className="h-5 w-5" /> {card.atk}
+                <RiSwordFill className="h-5 w-5" /> {card.atk === -1 ? "?" : card.atk}
             </Tag>
         )}
         {card.def !== undefined && (
             <Tag darkMode={darkMode} label="DEF">
-                <RiShieldFill className="h-5 w-5" /> {card.def}
+                <RiShieldFill className="h-5 w-5" /> {card.def === -1 ? "?" : card.def}
             </Tag>
         )}
         {card.archetype && (

@@ -9,7 +9,7 @@ const CardSearcherContainer = () => {
     useEffect(() => {
         const fetchAllCards = async () => {
             try {
-                const res = await fetch("https://db.ygoprodeck.com/api/v7/cardinfo.php");
+                const res = await fetch(`${import.meta.env.VITE_YUGIOH_API_URL}`);
                 const data = await res.json();
                 setAllCards(data.data.map(card => card.name));
             } catch (err) {

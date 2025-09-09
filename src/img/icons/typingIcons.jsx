@@ -3,7 +3,7 @@ import BeastWarriorIcon from "../../assets/typing/Beast-Warrior.png";
 import BeastIcon from "../../assets/typing/Beast.png";
 import ContinuousIcon from "../../assets/typing/Continuous.png";
 import CounterIcon from "../../assets/typing/Counter.png";
-import CreatorGodIcon from "../../assets/typing/Creator-God.png";
+import CreatorGodIcon from "../../assets/typing/Creator God.png";
 import CyberseIcon from "../../assets/typing/Cyberse.png";
 import DinosaurIcon from "../../assets/typing/Dinosaur.png";
 import DivineBeastIcon from "../../assets/typing/Divine-Beast.png";
@@ -38,7 +38,7 @@ const typingIcons = {
     "Beast": BeastIcon,
     "Continuous": ContinuousIcon,
     "Counter": CounterIcon,
-    "Creator-God": CreatorGodIcon,
+    "Creator God": CreatorGodIcon,
     "Cyberse": CyberseIcon,
     "Dinosaur": DinosaurIcon,
     "Divine-Beast": DivineBeastIcon,
