@@ -3,7 +3,7 @@ import CardTableRow from "./CardTableRow";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 import FilterBar from "./FilterBar";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 function CardTable() {
 

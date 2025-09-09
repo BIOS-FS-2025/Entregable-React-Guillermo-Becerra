@@ -1,5 +1,5 @@
-import kclogo from "../img/kclogo.png"
-import { useTheme } from "../context/ThemeContext";
+import kclogo from "../../img/kclogo.png"
+import { useTheme } from "../../context/ThemeContext";
 import { Link } from "react-router-dom";
 
 function Hero() {

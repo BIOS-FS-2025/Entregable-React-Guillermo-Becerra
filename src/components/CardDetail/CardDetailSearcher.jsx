@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SuggestionsList from "./SuggestionsList";
 import GoButton from "./GoButton";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const CardDetailSearcher = ({ allCards, navigate }) => {
 

@@ -4,7 +4,7 @@ import SearcherLayout from "./layouts/SearcherLayout";
 import Home from "./pages/Home";
 import Card from "./pages/Card";
 import { ThemeProvider } from "./context/ThemeContext";
-import CardDetail from "./components/CardDetail";
+import CardDetail from "./components/CardDetail/CardDetail";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
-import Hero from "../components/Hero";
-import CardTable from "../components/CardTable";
-import Instructions from "../components/Instructions";
+import Hero from "../components/Home/Hero";
+import CardTable from "../components/Home/CardTable";
+import Instructions from "../components/Home/Instructions";
 
 function Home() {
     return (

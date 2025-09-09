@@ -1,4 +1,4 @@
-import CardSearcherContainer from "../components/CardSearcherContainer";
+import CardSearcherContainer from "../components/CardDetail/CardSearcherContainer";
 
 function Card() {
     return (
